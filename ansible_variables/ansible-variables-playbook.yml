@@ -1,0 +1,133 @@
+---
+- name: Example Ansible Playbook for Handlers
+  hosts: all
+  become: yes
+  remote_user: ubuntu
+  #roles:
+  #  - custom-role
+
+  vars:
+    # 1. String Variable
+    main_playbook_variable: "Hello, World in the main playbook!"
+
+    # 2. Boolean Variable
+    is_enabled: true
+
+    # 3. List Variable
+    cars:
+      - Rolls-Royce
+      - Lamborghini
+      - Thar
+
+    # 4. Dictionary Variable
+    car_colors:
+      Rolls-Royce: Black
+      Lamborghini: White
+      Thar: Green
+
+    # 5. Referencing Nested Variables
+    cars_collection:
+      - name: Rolls-Royce
+        colors:
+          - Black
+          - silver
+
+      - name: Lamborghini
+        colors:
+          - White
+          - Black
+
+  # 6. Importing variables from an external file
+  vars_files:
+    - my_vars.yml
+
+
+
+
+
+  
+
+  tasks:
+    # 1. String Variable
+    - name: String variable from - main_playbook_variable
+      debug:
+        var: main_playbook_variable
+
+    
+    # 2. Boolean Variable
+    - name: Boolean variable
+      debug:
+        msg: "Variable is true"
+      when: is_enabled
+
+    
+    # 3. List Variable
+    - name: List variable - cars
+      debug:
+        var: cars
+
+    # Access elements of the list
+    - name: List variable - second car
+      debug:
+        var: cars[1]
+
+    # 4. Dictionary Variable
+    - name: Dictionary variable - car_colors
+      debug:
+        var: car_colors
+
+    # Access elements of the dictionary
+    - name: Dictionary variable - color of Lamborghini
+      debug:
+        var: car_colors['Lamborghini']
+
+    - name: Dictionary variable - color of Rolls-Royce
+      debug:
+        var: car_colors.Thar
+      
+    - name: Accessing multiple items in a dictionary
+      debug:
+        msg:
+          - "Color of Lamborghini: {{ car_colors['Lamborghini'] }}"
+          - "Color of Rolls-Royce: {{ car_colors['Rolls-Royce'] }}"
+          - "Color of Thar: {{ car_colors['Thar'] }}"
+
+    # Fetching and printing the color of Lamborghini by registering the command output
+    - name: Fetch the color of Lamborghini
+      command: echo "{{ car_colors.Lamborghini}}"
+      register: Lamborghini_color
+
+    - name: Print the color of Lamborghini
+      debug:
+        var: Lamborghini_color.stdout 
+
+
+    # 5. Nested Variables
+    - name: Nested variable - cars_collection
+      debug:
+        var: cars_collection[1].colors[1]
+
+    - name: Nested variable - cars_collection
+      debug:
+        var: car_colors[cars_collection[0].name]
+
+    # Jinja2 filters on variables
+    - name: Using Jinja2 filter on variables
+      debug:
+        var: car_colors.keys() | list | map('upper') | list
+
+    # 6. Accessing imported variables from an external file
+    - name: Import variables from my_vars.yml
+      debug:
+        var: var_from_my_vars_yml
+    
+
+    # 7. Defining and accesssing a variable at runtime
+    - name: Define a variable at runtime
+      debug:
+        var: version
+
+    # 8. Defining and accesssing a variable at runtime
+    - name: Print the value of variable when var file is passed at runtime  
+      debug:
+        var: other_var

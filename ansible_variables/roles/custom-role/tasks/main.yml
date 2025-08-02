@@ -1,0 +1,4 @@
+---
+- name: Print a message from custom role
+  debug:
+    msg: "Hello from custom role!"
