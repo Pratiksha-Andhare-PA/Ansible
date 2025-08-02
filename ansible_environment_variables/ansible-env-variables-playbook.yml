@@ -1,0 +1,26 @@
+---
+- name: Example Ansible Playbook for Handlers
+  hosts: all
+  become: yes
+  remote_user: ubuntu
+
+  # Accessible to all the tasks in this playbook as it's created at the play level(top level)
+  environment:
+    EXAMPLE: "Foo bar"
+    MY_VAR1: "Variable value 1"
+
+  tasks:
+  # Access the environment variable at the play level
+    - name: Environment variable at Playbooklevel
+      ansible.builtin.command: "echo $EXAMPLE"
+
+    # Environment variable at Task level, cannot be accessed by other tasks
+    - name: Environment variable at Task level
+      environment:
+        MY_TASK_LEVEL_VARIABLE: "Hello World!"
+      ansible.builtin.command: "echo $MY_TASK_LEVEL_VARIABLE"
+
+    
+  # Testing Environment Variables
+    - name: Testing both play and task level environment variables
+      ansible.builtin.command: "echo $EXAMPLE $MY_TASK_LEVEL_VARIABLE"
