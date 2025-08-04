@@ -1,0 +1,38 @@
+---
+## Boolean conditional check for Installing Apache
+- name: Install Apache Web Server
+  apt:
+    name: apache2
+    state: present
+  when: install_apache_flag 
+
+
+
+## Print the OS family, Distribution version and Kernel
+- name: Debug OS family, Distribution version and Kernel
+  debug:
+    msg:
+      - "OS Family: {{ ansible_facts['os_family'] }}"
+      - "Distribution Major Version: {{ ansible_facts['distribution_major_version'] }}"
+      - "Kernel: {{ ansible_facts['kernel'] }}"
+
+
+
+## Putting multiple conditions using ansible_facts
+- name: Combine conditions using ansible_facts
+  debug:
+    msg:
+      - "OS Family: {{ ansible_facts['os_family'] }}"
+      - "Distribution Major Version: {{ ansible_facts['distribution_major_version'] }}"
+
+  when:
+    - ansible_facts['os_family'] == "Debian"
+    - ansible_facts['distribution_major_version'] == "24"
+
+## Using and
+- name: Combine conditions using 'and'
+  debug:
+    msg:
+      "Both the conditions are true"
+  when:
+    - ansible_facts['os_family'] == "Debian" and ansible_facts['distribution_major_version'] == "24"
