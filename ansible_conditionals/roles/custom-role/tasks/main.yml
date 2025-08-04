@@ -36,3 +36,13 @@
       "Both the conditions are true"
   when:
     - ansible_facts['os_family'] == "Debian" and ansible_facts['distribution_major_version'] == "24"
+
+## Register a variable in conditional statement
+- name: Register a variable
+  ansible.builtin.command: cat /home/pratiksha/test_file.txt
+  register: test_file_content
+
+- name: Use the variable in a conditional statement
+  debug:
+    var: test_file_content.stdout
+  when: test_file_content.stdout.find("Hi") != -1
