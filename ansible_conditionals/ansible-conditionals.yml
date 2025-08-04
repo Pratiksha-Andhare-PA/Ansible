@@ -1,0 +1,11 @@
+---
+## Boolean conditional check for Installing Apache
+- name: Install Apache Web Server
+  hosts: local
+  become: yes
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - custom-role
