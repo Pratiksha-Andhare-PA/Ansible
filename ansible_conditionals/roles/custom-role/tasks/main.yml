@@ -46,3 +46,16 @@
   debug:
     var: test_file_content.stdout
   when: test_file_content.stdout.find("Hi") != -1
+
+## When with loop
+- name: Run with items > 5
+  ansible.builtin.command: echo "Item is {{ item }}"
+  loop: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  when:
+    - item > 5
+
+## Conditionals based on ansible_facts
+- name: Using ansible_facts in conditionals
+  debug:
+    msg: "This is a Debian System"
+  when: ansible_facts['os_family'] == "Debian"
