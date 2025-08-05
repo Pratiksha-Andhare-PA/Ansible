@@ -20,14 +20,23 @@ This project demonstrates how to deploy a basic static HTML website on a server 
 2. Run the playbook:
 
    ```bash
-   ansible-playbook -i inventory/hosts site.yml --ask-become-pass
+   ansible-playbook -inventory inventory/hosts site.yml --ask-become-pass
    ```
+
+   (OR)
+
+    ```bash
+    ansible-playbook -inventory inventory/hosts site.yml -K
+   ```
+
+   Use -K (OR) --ask-become-pass to prompt for the sudo password required when the playbook needs elevated privileges (like installing Nginx).
 
 Open your browser and go to:
 
 ``` bash
 http://localhost
-You should see your simple HTML website.
+
+- You should see your simple HTML website.
 ```
 
 ---
