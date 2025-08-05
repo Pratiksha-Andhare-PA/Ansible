@@ -35,9 +35,9 @@ Open your browser and go to:
 
 ``` bash
 http://localhost
-
-- You should see your simple HTML website.
 ```
+
+You should see your simple HTML website.
 
 ---
 
