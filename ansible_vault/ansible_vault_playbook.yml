@@ -1,0 +1,7 @@
+---
+- name: Example Ansible Vault Playbook
+  hosts: all
+  become: yes
+  remote_user: ubuntu
+  roles:
+    - custom-role
