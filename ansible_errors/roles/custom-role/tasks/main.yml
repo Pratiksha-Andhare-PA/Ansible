@@ -1,0 +1,25 @@
+# 1. ignore_errors: This will ignore all errors in the task.
+- name: index.html copy with ignore_errors
+  template: src=index.html dest=/home/ubuntu
+  register: copy_result
+  ignore_errors: true
+
+- name: String variable from - main_playbook_variable
+  debug:
+    var: copy_result
+
+
+# 2. any_errors_fatal: This will stop the playbook execution if any task fails.
+- name: index.html copy with failed_when
+  template: src=index.html dest=/home/ubuntu
+  failed_when:
+    - '"Could not find or access" not in copy_result.msg'
+    - copy_result.failed == true
+  any_errors_fatal: false
+
+
+  # 3. changed_when: This will only mark the task as changed if the condition is met.
+- name: Create a file if it does not exist
+  command: touch /home/pratiksha/mvfile.txt
+  register: file_created
+  changed_when: file_created.rc == 0  # rc => result code
