@@ -1,0 +1,3 @@
+- name: Show the value of ansible vault variable
+  debug:
+    var: my_secret_from_base64_pass_file
